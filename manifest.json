@@ -1,0 +1,35 @@
+{
+  "manifest_version": 2,
+  "name": "CK ChromeExt",
+  "description": "This is a chrome extension for CK.",
+  "version": "0.0.0.1",
+  "background": {
+    "scripts": [
+      "event.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "CK Extension",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>",
+    "tabs",
+    "activeTab",
+    "http://*/*",
+    "https://*/*",
+    "storage",
+    "alarms",
+    "notifications"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "css": [],
+      "js": ["content.js"]
+    }
+  ]
+}
