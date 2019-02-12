@@ -34,12 +34,12 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div>
+    return ( <div/>
+/*       <div>
         Count: {this.props.count} <br/>
         Url: {this.props.url} <br/>
         Method: {this.props.method} <br/>
-      </div>
+      </div> */
     );
   }
 }
