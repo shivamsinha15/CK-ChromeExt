@@ -9,7 +9,7 @@ class App extends Component {
   componentDidMount() {
 
 
-
+    //todo: Shouldnt happen for every click
     document.addEventListener('click', () => {
        this.props.dispatch({
         type: 'ADD_COUNT'
@@ -17,13 +17,15 @@ class App extends Component {
 
       let addressDiv = document.getElementById("address")
 
+
       if(addressDiv){
        var campaignAddress = addressDiv.getAttribute("value");
 
-      this.props.dispatch({
-        type: 'SELECTED_CAMPAIGN',
-        value: campaignAddress
-      });
+       this.props.dispatch({
+          type: 'SELECTED_CAMPAIGN',
+          value: campaignAddress
+        });
+
     }
 
 
@@ -34,6 +36,7 @@ class App extends Component {
   }
 
   render() {
+    
     return ( <div/>
 /*       <div>
         Count: {this.props.count} <br/>

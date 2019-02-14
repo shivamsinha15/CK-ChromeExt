@@ -47,35 +47,24 @@ const userEngagementNotification = async (postRequest,postRequestBody) => {
     var variables = requestBody.formData.variables;
   }
 
-  console.log("postRequest",postRequest);
-  console.log("requestBody",requestBody);
-  console.log("variables",variables);
-
   if(requestBody && variables && variables[0]){
     let postedVariables = variables[0];
-    console.log("GET PARTICIPATION ID:")
     let jsonAsObject = JSON.parse(postedVariables);
-    console.log("jsonAsObject",jsonAsObject);
-    console.log("jsonAsObject.input",jsonAsObject.input);
-    console.log("jsonAsObject.input.tracking",jsonAsObject.input.tracking);
-    console.log("jsonAsObject.input.tracking[0]",jsonAsObject.input.tracking[0]);
-    if(jsonAsObject.input && jsonAsObject.input.tracking && jsonAsObject.input.tracking[0]){
-       
+
+
+    if(jsonAsObject.input && 
+      jsonAsObject.input.feedback_reaction && jsonAsObject.input.feedback_reaction === 1 && //isLike
+      jsonAsObject.input.tracking && jsonAsObject.input.tracking[0]){    //isParticipationKey
         let trackingVariables = JSON.parse(jsonAsObject.input.tracking[0]);
         let participationKey = trackingVariables['mf_story_key'];
-        alert(participationKey);
+        const URL = "http://localhost:3000/api/campaign/participate"
+        await postPromise(URL,{ participationKey, address });
+        chrome.tabs.getCurrent(function(tab) {
+          chrome.tabs.remove(tab.id, function() { });
+      });
     }
-
-
   }
 
-/*   console.log("storeState",storeState);
-  if(address){
-     alert(address)
-    console.log("**************TESTING*************")
-    const URL = "http://localhost:3000/api/campaign/cbt/test"
-    await postPromise(URL,{test:10, address});
-  } */
 
 }
 
@@ -93,13 +82,7 @@ export const  postPromise = (URL,data) => {
   });
 }
 
- 
 
-/* const isTwitter = (postRequest,postRequestBody) => {
-   console.log({ postRequest });
-   console.log({ postRequestBody });
-}
- */
 
 const checkFb = (postRequest) => {
    return (postRequest.initiator 
