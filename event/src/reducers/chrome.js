@@ -36,25 +36,4 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-};
-
-
-
-
-
-
-/*
-
-
-      console.log("Current State:", state);
-      console.log("Action Payload:", action);
-      return state + (action.payload || 1);
-
-      Current State: 1
-      event.js:1260 Action Payload: 
-      {type: "ADD_COUNT", _sender: {…}}
-      type: "ADD_COUNT"
-      _sender: {id: "pcgelaekbfmjbbhkmliekgempfadiiop", url: "https://www.google.com/", tab: {…}, frameId: 0}
-      __proto__: Object
-
-*/
+}

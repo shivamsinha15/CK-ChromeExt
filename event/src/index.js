@@ -28,12 +28,35 @@ chrome.webRequest.onBeforeRequest.addListener((details) => {
   if(details.method=="POST") {
 
        if(details.requestBody){
+/*        
+          console.log("IS A POST Request")
+         console.log(JSON.stringify(details))
+*/
           userEngagementNotification(details);
         }  
     }
 
 
 },networkFilters,extraInfoSpec);
+
+/* 
+  Important for iFrame to work:
+  https://stackoverflow.com/questions/51847996/ignoring-x-frame-options-in-firefox-webextension
+*/
+chrome.webRequest.onHeadersReceived.addListener((details) => {
+/* 
+  console.log("Header Received Request")
+  console.log(JSON.stringify(details))
+*/
+
+  let newHeaders = details.responseHeaders.filter(
+      header => !header.name.toLowerCase().endsWith('frame-options')
+  );
+  return {responseHeaders: newHeaders};
+},
+networkFilters,
+['blocking', 'responseHeaders']
+);
 
 const userEngagementNotification = async (postRequest,postRequestBody) => {
   console.log("userEngagementNotification");
@@ -59,9 +82,6 @@ const userEngagementNotification = async (postRequest,postRequestBody) => {
         let participationKey = trackingVariables['mf_story_key'];
         const URL = "http://localhost:3000/api/campaign/participate"
         await postPromise(URL,{ participationKey, address });
-        chrome.tabs.getCurrent(function(tab) {
-          chrome.tabs.remove(tab.id, function() { });
-      });
     }
   }
 
