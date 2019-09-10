@@ -40,14 +40,15 @@ class App extends Component {
    // console.log("componentDidUpdate");
     if(this.props.updateReactApp && (!prevProps || !prevProps.updateReactApp)){
       console.log("componentDidUpdate:Calling First Time");
-      this.updateDom(JSON.parse(this.props.updateReactApp))
+      this.updateDom(JSON.parse(this.props.updateReactApp));
+      return;
     }
+
     if(this.props.updateReactApp && prevProps.updateReactApp ){
        let prevUpdateReactApp = JSON.parse(prevProps.updateReactApp)
        let currentUpdateReactApp = JSON.parse(this.props.updateReactApp)
-
-       console.log("componentDidUpdate:Calling nTh Time");
-       if(currentUpdateReactApp.payload && prevUpdateReactApp.updateReactApp
+      
+       if(currentUpdateReactApp.payload && prevUpdateReactApp.payload
               && (currentUpdateReactApp.payload.txHash != prevUpdateReactApp.payload.txHash)){
                 console.log("componentDidUpdate:calling update dome");
                 this.updateDom(currentUpdateReactApp)
