@@ -37,17 +37,18 @@ class App extends Component {
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     
-    console.log("componentDidUpdate");
+   // console.log("componentDidUpdate");
     if(this.props.updateReactApp && (!prevProps || !prevProps.updateReactApp)){
       console.log("componentDidUpdate:Calling First Time");
       this.updateDom(JSON.parse(this.props.updateReactApp))
     }
     if(this.props.updateReactApp && prevProps.updateReactApp ){
-       let currentUpdateReactApp = JSON.parse(prevProps.updateReactApp)
-       let prevUpdateReactApp = JSON.parse(this.props.updateReactApp.updateReactApp)
+       let prevUpdateReactApp = JSON.parse(prevProps.updateReactApp)
+       let currentUpdateReactApp = JSON.parse(this.props.updateReactApp)
+
        console.log("componentDidUpdate:Calling nTh Time");
-       if(currentUpdateReactApp.payload && prevProps.updateReactApp
-              && (currentUpdateReactApp.payload.txHash != currentUpdateReactApp.payload.txHash)){
+       if(currentUpdateReactApp.payload && prevUpdateReactApp.updateReactApp
+              && (currentUpdateReactApp.payload.txHash != prevUpdateReactApp.payload.txHash)){
                 console.log("componentDidUpdate:calling update dome");
                 this.updateDom(currentUpdateReactApp)
        } 
@@ -70,31 +71,16 @@ class App extends Component {
   }
 
   render() {
-
-    console.log("Calling Render...........",this.props);
-
-/*     if(this.props.updateReactApp){
-         console.log("Checkin If element exist!!!!!!!!!");
-         if(document.getElementById("chrome")){
-          console.log("UPDATING DOM!!!!!!!!!");
-          let updateReactAppObj = JSON.parse(this.props.updateReactApp);
-          let updateRequestFromBackgroundScript = { 
-                                                    type: updateReactAppObj.type,
-                                                    payload: updateReactAppObj.payload
-                                                  };
-          document.getElementById("chrome").innerHTML= JSON.stringify(updateRequestFromBackgroundScript);
-         }
-         
-    } */
-
     
     return ( 
         <div>
-{/*           Count: {this.props.count} <br/>
+{/*       
+          Count: {this.props.count} <br/>
           Url: {this.props.url} <br/>
-          Method: {this.props.method} <br/> */}
+          Method: {this.props.method} <br/> 
           Test Output <br/>
           ConfirmedParticipation: {this.props.updateReactApp} <br/>
+*/}
        </div> 
     );
   }
