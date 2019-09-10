@@ -33,6 +33,19 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         selectedCampaign: action.value
       });  
+    case 'UPDATE_REACT_APP_CONFIRMED_PARTICIPATION':
+
+      let updateRequest = JSON.stringify({ 
+        type:'campaignParticipationModal',
+        payload: action.payload
+      });
+
+      console.log("UPDATE_REACT_APP_CONFIRMED_PARTICIPATION",updateRequest);
+
+      return Object.assign({}, state, {
+        updateReactApp: updateRequest
+      });  
+
     default:
       return state;
   }

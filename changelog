@@ -1,0 +1,6 @@
+GM-37:
+ContentScript/App.jsx: handle update of updateReactApp prop type which contains confirmation of participation
+                       updateDom - for which the changes are observed in the react app.
+
+BackgroundScript/Index.js: - send action 'UPDATE_REACT_APP_CONFIRMED_PARTICIPATION' for successful participation
+                           - reducer to handle action and update the state: updateReactApp 

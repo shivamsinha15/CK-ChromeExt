@@ -2,8 +2,14 @@ import {createStore} from 'redux';
 import rootReducer from './reducers';
 
 import {wrapStore} from 'react-chrome-redux';
+import {Store} from 'react-chrome-redux';
 
 const store = createStore(rootReducer, {});
+
+wrapStore(store, {
+  portName: 'example'
+});
+
 
 const networkFilters = {
   urls: [
@@ -19,6 +25,7 @@ const networkFilters = {
 const extraInfoSpec = ['requestBody']
 
 chrome.webRequest.onBeforeRequest.addListener((details) => {
+ 
   store.dispatch({
     type: 'REQUEST_DETAILS',
     payload: details
@@ -28,10 +35,10 @@ chrome.webRequest.onBeforeRequest.addListener((details) => {
   if(details.method=="POST") {
 
        if(details.requestBody){
-/*        
+        
           console.log("IS A POST Request")
-         console.log(JSON.stringify(details))
-*/
+          console.log(JSON.stringify(details))
+
           userEngagementNotification(details);
         }  
     }
@@ -52,6 +59,18 @@ chrome.webRequest.onHeadersReceived.addListener((details) => {
   let newHeaders = details.responseHeaders.filter(
       header => !header.name.toLowerCase().endsWith('frame-options')
   );
+
+/*    try {
+     store.dispatch({ 
+      type: 'CONFIRMED_PARTICIPATION',
+      payload: 'Worked!'
+    }); 
+
+
+  } catch (e){
+    console.log(e);
+  }  */
+  
   return {responseHeaders: newHeaders};
 },
 networkFilters,
@@ -81,7 +100,17 @@ const userEngagementNotification = async (postRequest,postRequestBody) => {
         let trackingVariables = JSON.parse(jsonAsObject.input.tracking[0]);
         let participationKey = trackingVariables['mf_story_key'];
         const URL = "http://localhost:3000/api/campaign/participate"
-        await postPromise(URL,{ participationKey, address });
+        let confirmedParticipation  = await postPromise(URL,{ participationKey, address });
+        
+        console.log("CONFIRMING PARTICIPATION.......");
+        console.log(confirmedParticipation);
+        
+        store.dispatch({ 
+          type: 'UPDATE_REACT_APP_CONFIRMED_PARTICIPATION',
+          payload: confirmedParticipation
+        }); 
+        
+
     }
   }
 
@@ -93,13 +122,13 @@ const userEngagementNotification = async (postRequest,postRequestBody) => {
 
 export const  postPromise = (URL,data) => {
   return fetch(URL, {
-      method: 'POST',
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-  });
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+               }).then(response=>response.json())
 }
 
 
@@ -118,9 +147,6 @@ const isFacebook = (postRequest,postRequestBody) => {
   return checkFb(postRequest) && checkAction(postRequestBody);
 }
 
-wrapStore(store, {
-  portName: 'example'
-});
 
 
 
