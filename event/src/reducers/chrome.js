@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
     case 'UPDATE_REACT_APP_CONFIRMED_PARTICIPATION':
 
       let updateRequest = JSON.stringify({ 
-        type:'campaignParticipationModal',
+        type:'SUCCESS',
         payload: action.payload
       });
       return Object.assign({}, state, {
@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
     case 'UPDATE_REACT_APP_ERROR':
       console.log("ERROR REDUCER IS CALLED!!!!");
       let errorResponse = JSON.stringify({ 
-        type:'campaignParticipationModalERROR',
+        type:'ERROR',
         payload: action.payload
       });
       return Object.assign({}, state, {

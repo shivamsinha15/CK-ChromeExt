@@ -8,3 +8,6 @@ GM-85
 BackgroundScript/Index.js: actionType: 'UPDATE_REACT_APP_ERROR', for errors
 BackgroundScript/reducer.js: redux state updateReactAppWithError for prop change to content
 ContentScript/App.jsx: Added updateReactAppWithError handler
+
+GM-90
+BackgroundScript/reducer.js:  changed updateRequest.type from the actual modalName to 'SUCCESS' and 'ERROR'
