@@ -39,12 +39,18 @@ export default (state = initialState, action) => {
         type:'campaignParticipationModal',
         payload: action.payload
       });
-
-      console.log("UPDATE_REACT_APP_CONFIRMED_PARTICIPATION",updateRequest);
-
       return Object.assign({}, state, {
         updateReactApp: updateRequest
-      });  
+      });
+    case 'UPDATE_REACT_APP_ERROR':
+      console.log("ERROR REDUCER IS CALLED!!!!");
+      let errorResponse = JSON.stringify({ 
+        type:'campaignParticipationModalERROR',
+        payload: action.payload
+      });
+      return Object.assign({}, state, {
+        updateReactAppWithError: errorResponse
+      }); 
 
     default:
       return state;

@@ -4,3 +4,7 @@ ContentScript/App.jsx: handle update of updateReactApp prop type which contains 
 
 BackgroundScript/Index.js: - send action 'UPDATE_REACT_APP_CONFIRMED_PARTICIPATION' for successful participation
                            - reducer to handle action and update the state: updateReactApp 
+GM-85
+BackgroundScript/Index.js: actionType: 'UPDATE_REACT_APP_ERROR', for errors
+BackgroundScript/reducer.js: redux state updateReactAppWithError for prop change to content
+ContentScript/App.jsx: Added updateReactAppWithError handler

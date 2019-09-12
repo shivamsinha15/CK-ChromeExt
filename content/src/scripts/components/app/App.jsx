@@ -7,8 +7,7 @@ class App extends Component {
     super(props);
   }
 
-  componentDidMount() {
-
+  componentDidMount() {  
     //todo: Shouldnt happen for every click
     document.addEventListener('click', () => {
        this.props.dispatch({
@@ -31,42 +30,79 @@ class App extends Component {
     });
 
     this.updateDom = this.updateDom.bind(this);
+    this.updateReactAppWithError = this.updateReactAppWithError.bind(this);
 
   }
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    
-   // console.log("componentDidUpdate");
+  /*The objective of this method is to update the dom to prop*/
+  componentDidUpdate(prevProps) {    
+    console.log("componentDidUpdate:START--------------------------------");
+    this.handleUpdateReactApp(prevProps);
+    this.updateReactAppWithError(prevProps);
+    console.log("componentDidUpdate:end--------------------------------");
+  }
+
+  updateReactAppWithError(prevProps) {
+/*  
+    console.log("*****CHECKING:updateReactAppWithError ******");
+    console.log("*****updateReactAppWithERRROE******: NTH Time1: this.props.updateReactAppWithError",this.props.updateReactAppWithError);
+    console.log("*****updateReactAppWithERRROE******: NTH Time1: prevProps",prevProps);
+    console.log("*****updateReactAppWithERRROE******: NTH Time1 prevProps.updateReactAppWithError",prevProps.updateReactAppWithError)
+*/
+
+    if(this.props.updateReactAppWithError && (!prevProps || !prevProps.updateReactAppWithError)){
+      console.log("*****updateReactAppWithERRROE******:Calling First Time");
+      this.updateDom(JSON.parse(this.props.updateReactAppWithError));
+      return;
+    } 
+;
+    if(this.props.updateReactAppWithError && prevProps && prevProps.updateReactAppWithError){
+      console.log("*****updateReactAppWithERRROE******: NTH Time1");
+       let currentPayload = JSON.parse(this.props.updateReactAppWithError).payload;
+       let prevPayload =  JSON.parse(prevProps.updateReactAppWithError).payload;
+       console.log("currentPayload",currentPayload);
+       console.log("prevPayload",prevPayload);
+
+       if(currentPayload.errorID != prevPayload.errorID){
+        console.log("*****updateReactAppWithERRROE******: NTH Time3");
+        this.updateDom(JSON.parse(this.props.updateReactAppWithError));
+      }
+    }
+  }
+
+  handleUpdateReactApp(prevProps) {
     if(this.props.updateReactApp && (!prevProps || !prevProps.updateReactApp)){
       console.log("componentDidUpdate:Calling First Time");
       this.updateDom(JSON.parse(this.props.updateReactApp));
       return;
     }
 
+    console.log("componentDidUpdate:called:nthTime");
+
     if(this.props.updateReactApp && prevProps.updateReactApp ){
        let prevUpdateReactApp = JSON.parse(prevProps.updateReactApp)
        let currentUpdateReactApp = JSON.parse(this.props.updateReactApp)
-      
+       console.log("componentDidUpdate:called:prepayloadCheck");
        if(currentUpdateReactApp.payload && prevUpdateReactApp.payload
               && (currentUpdateReactApp.payload.txHash != prevUpdateReactApp.payload.txHash)){
-                console.log("componentDidUpdate:calling update dome");
+                console.log("componentDidUpdate:calling update dom");
                 this.updateDom(currentUpdateReactApp)
        } 
     }
-
   }
 
+
+  //errorResponse
   
   //Note this triggers the update on the client side REACT APP.
   updateDom(props) {
     console.log("Checkin If element exist!!!!!!!!!");
     if(document.getElementById("chrome")){
-      console.log("UPDATING DOM!!!!!!!!!");
       let updateRequestFromBackgroundScript = { 
                                                 type: props.type,
                                                 payload: props.payload
                                               };
+      console.log("UPDATING DOM!!!!!!!!!",updateRequestFromBackgroundScript);
       document.getElementById("chrome").innerHTML= JSON.stringify(updateRequestFromBackgroundScript);
     }
   }
@@ -92,7 +128,8 @@ const mapStateToProps = (state) => {
     count: state.chrome.count,
     url: state.chrome.url,
     method: state.chrome.method,
-    updateReactApp: state.chrome.updateReactApp
+    updateReactApp: state.chrome.updateReactApp,
+    updateReactAppWithError: state.chrome.updateReactAppWithError
   };
 };
 

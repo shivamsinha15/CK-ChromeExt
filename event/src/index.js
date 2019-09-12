@@ -36,8 +36,8 @@ chrome.webRequest.onBeforeRequest.addListener((details) => {
 
        if(details.requestBody){
         
-          console.log("IS A POST Request")
-          console.log(JSON.stringify(details))
+/*           console.log("IS A POST Request")
+          console.log(JSON.stringify(details)) */
 
           userEngagementNotification(details);
         }  
@@ -99,17 +99,33 @@ const userEngagementNotification = async (postRequest,postRequestBody) => {
       jsonAsObject.input.tracking && jsonAsObject.input.tracking[0]){    //isParticipationKey
         let trackingVariables = JSON.parse(jsonAsObject.input.tracking[0]);
         let participationKey = trackingVariables['mf_story_key'];
-        const URL = "http://localhost:3000/api/campaign/participate"
-        let confirmedParticipation  = await postPromise(URL,{ participationKey, address });
-        
-        console.log("CONFIRMING PARTICIPATION.......");
-        console.log(confirmedParticipation);
-        
-        store.dispatch({ 
-          type: 'UPDATE_REACT_APP_CONFIRMED_PARTICIPATION',
-          payload: confirmedParticipation
-        }); 
-        
+        const URL = "http://localhost:3000/api/campaign/participate";
+
+        try {
+              let confirmedParticipation  = await postPromise(URL,{ participationKey, address });
+              console.log("CONFIRMING PARTICIPATION.......");
+              console.log(confirmedParticipation);
+              
+              store.dispatch({ 
+                type: 'UPDATE_REACT_APP_CONFIRMED_PARTICIPATION',
+                payload: confirmedParticipation
+              }); 
+
+            } catch (e) {
+                console.log("Error Occurred",e);
+                let payload = {
+                  message: 'Error Occurred', 
+                  errorID: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+                }
+                console.log("Sending ERROR Payload:",payload);
+
+                store.dispatch({ 
+                  type: 'UPDATE_REACT_APP_ERROR',
+                  payload: payload
+                }); 
+            }
+          
+        console.log("Participation CALLLED");
 
     }
   }
