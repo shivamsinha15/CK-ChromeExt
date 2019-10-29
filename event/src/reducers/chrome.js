@@ -33,6 +33,10 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         selectedCampaign: action.value
       });  
+    case 'SELECTED_JWT_TOKEN':
+      return Object.assign({}, state, {
+        jwtToken: action.value
+      });  
     case 'UPDATE_REACT_APP_CONFIRMED_PARTICIPATION':
 
       let updateRequest = JSON.stringify({ 

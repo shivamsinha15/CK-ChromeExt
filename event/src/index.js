@@ -82,6 +82,7 @@ const userEngagementNotification = async (postRequest,postRequestBody) => {
 
   let storeState = store.getState();
   let address  = storeState.chrome.selectedCampaign;
+  let jwtToken = storeState.chrome.jwtToken;
 
   let requestBody = postRequest.requestBody;
 
@@ -99,10 +100,10 @@ const userEngagementNotification = async (postRequest,postRequestBody) => {
       jsonAsObject.input.tracking && jsonAsObject.input.tracking[0]){    //isParticipationKey
         let trackingVariables = JSON.parse(jsonAsObject.input.tracking[0]);
         let participationKey = trackingVariables['mf_story_key'];
-        const URL = "http://localhost:3000/api/campaign/participate";
+        const URL = "http://52.20.224.32:3000/api/campaign/participate";
 
         try {
-              let confirmedParticipation  = await postPromise(URL,{ participationKey, address });
+              let confirmedParticipation  = await postPromise(URL,{ participationKey, address },jwtToken);
               console.log("CONFIRMING PARTICIPATION.......");
               console.log(confirmedParticipation);
               
@@ -136,12 +137,14 @@ const userEngagementNotification = async (postRequest,postRequestBody) => {
 
 
 
-export const  postPromise = (URL,data) => {
+export const  postPromise = (URL,data,jwtToken) => {
+  let authHeader = "Bearer " + jwtToken;
   return fetch(URL, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': authHeader
                 },
                 body: JSON.stringify(data)
                }).then(response=>response.json())

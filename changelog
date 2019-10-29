@@ -11,3 +11,7 @@ ContentScript/App.jsx: Added updateReactAppWithError handler
 
 GM-90
 BackgroundScript/reducer.js:  changed updateRequest.type from the actual modalName to 'SUCCESS' and 'ERROR'
+
+GM-147
+ContentScript/App.jsx: Added jwtToken from divElement and set in reduc store "state.jwtToken"
+BackgroundScript/Index.js: Added Auth Header in POST request

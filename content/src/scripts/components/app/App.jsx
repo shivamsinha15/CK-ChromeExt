@@ -14,18 +14,30 @@ class App extends Component {
         type: 'ADD_COUNT'
       });
 
-      let hiddenAddressDiv = document.getElementById("hiddenAddress")
+      let hiddenAddressDiv = document.getElementById("hiddenAddress");
+      let hiddenJwtToken = document.getElementById("jwtToken");
 
 
-      if(hiddenAddressDiv){
+          if(hiddenAddressDiv){
 
-       var campaignAddress = hiddenAddressDiv.getAttribute("value");
-       this.props.dispatch({
-          type: 'SELECTED_CAMPAIGN',
-          value: campaignAddress
-        });
+            var campaignAddress = hiddenAddressDiv.getAttribute("value");
+            this.props.dispatch({
+                type: 'SELECTED_CAMPAIGN',
+                value: campaignAddress
+              });
 
-    }
+          }
+
+        if(hiddenJwtToken){
+
+          var jwtToken = hiddenJwtToken.getAttribute("value");
+          this.props.dispatch({
+            type: 'SELECTED_JWT_TOKEN',
+            value: jwtToken
+          });
+
+      }
+
  
     });
 
