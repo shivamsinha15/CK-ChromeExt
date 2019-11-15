@@ -48,56 +48,63 @@ class App extends Component {
 
   /*The objective of this method is to update the dom to prop*/
   componentDidUpdate(prevProps) {    
-    console.log("componentDidUpdate:START--------------------------------");
+    //console.log("componentDidUpdate:START--------------------------------");
+    console.log("prevProps",prevProps);
+    console.log("this.props.updateReactApp",this.props.updateReactApp)
     this.handleUpdateReactApp(prevProps);
     this.updateReactAppWithError(prevProps);
-    console.log("componentDidUpdate:end--------------------------------");
+    //console.log("componentDidUpdate:end--------------------------------");
   }
 
   updateReactAppWithError(prevProps) {
 /*  
-    console.log("*****CHECKING:updateReactAppWithError ******");
-    console.log("*****updateReactAppWithERRROE******: NTH Time1: this.props.updateReactAppWithError",this.props.updateReactAppWithError);
-    console.log("*****updateReactAppWithERRROE******: NTH Time1: prevProps",prevProps);
-    console.log("*****updateReactAppWithERRROE******: NTH Time1 prevProps.updateReactAppWithError",prevProps.updateReactAppWithError)
+    //console.log("*****CHECKING:updateReactAppWithError ******");
+    //console.log("*****updateReactAppWithERRROE******: NTH Time1: this.props.updateReactAppWithError",this.props.updateReactAppWithError);
+    //console.log("*****updateReactAppWithERRROE******: NTH Time1: prevProps",prevProps);
+    //console.log("*****updateReactAppWithERRROE******: NTH Time1 prevProps.updateReactAppWithError",prevProps.updateReactAppWithError)
 */
 
     if(this.props.updateReactAppWithError && (!prevProps || !prevProps.updateReactAppWithError)){
-      console.log("*****updateReactAppWithERRROE******:Calling First Time");
+      //console.log("*****updateReactAppWithERRROE******:Calling First Time");
       this.updateDom(JSON.parse(this.props.updateReactAppWithError));
       return;
     } 
 ;
     if(this.props.updateReactAppWithError && prevProps && prevProps.updateReactAppWithError){
-      console.log("*****updateReactAppWithERRROE******: NTH Time1");
+      //console.log("*****updateReactAppWithERRROE******: NTH Time1");
        let currentPayload = JSON.parse(this.props.updateReactAppWithError).payload;
        let prevPayload =  JSON.parse(prevProps.updateReactAppWithError).payload;
-       console.log("currentPayload",currentPayload);
-       console.log("prevPayload",prevPayload);
+       //console.log("currentPayload",currentPayload);
+       //console.log("prevPayload",prevPayload);
 
        if(currentPayload.errorID != prevPayload.errorID){
-        console.log("*****updateReactAppWithERRROE******: NTH Time3");
+        //console.log("*****updateReactAppWithERRROE******: NTH Time3");
         this.updateDom(JSON.parse(this.props.updateReactAppWithError));
       }
     }
   }
 
   handleUpdateReactApp(prevProps) {
-    if(this.props.updateReactApp && (!prevProps || !prevProps.updateReactApp)){
-      console.log("componentDidUpdate:Calling First Time");
+    console.log("handleUpdateReactAppCalled");
+    console.log("TESTING");
+    if(this.props.updateReactApp
+       && (
+            ((!prevProps || !prevProps.updateReactApp) )
+              || (prevProps && prevProps.updateReactApp && (prevProps.updateReactApp != this.props.updateReactApp))
+          )){
       this.updateDom(JSON.parse(this.props.updateReactApp));
       return;
     }
 
-    console.log("componentDidUpdate:called:nthTime");
+    //console.log("componentDidUpdate:called:nthTime");
 
     if(this.props.updateReactApp && prevProps.updateReactApp ){
        let prevUpdateReactApp = JSON.parse(prevProps.updateReactApp)
        let currentUpdateReactApp = JSON.parse(this.props.updateReactApp)
-       console.log("componentDidUpdate:called:prepayloadCheck");
+       //console.log("componentDidUpdate:called:prepayloadCheck");
        if(currentUpdateReactApp.payload && prevUpdateReactApp.payload
               && (currentUpdateReactApp.payload.txHash != prevUpdateReactApp.payload.txHash)){
-                console.log("componentDidUpdate:calling update dom");
+                //console.log("componentDidUpdate:calling update dom");
                 this.updateDom(currentUpdateReactApp)
        } 
     }
@@ -108,13 +115,13 @@ class App extends Component {
   
   //Note this triggers the update on the client side REACT APP.
   updateDom(props) {
-    console.log("Checkin If element exist!!!!!!!!!");
+    console.log("UPDATING DOM");
     if(document.getElementById("chrome")){
       let updateRequestFromBackgroundScript = { 
                                                 type: props.type,
                                                 payload: props.payload
                                               };
-      console.log("UPDATING DOM!!!!!!!!!",updateRequestFromBackgroundScript);
+      //console.log("UPDATING DOM!!!!!!!!!",updateRequestFromBackgroundScript);
       document.getElementById("chrome").innerHTML= JSON.stringify(updateRequestFromBackgroundScript);
     }
   }

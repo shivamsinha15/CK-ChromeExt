@@ -12,7 +12,8 @@ let opt = {
 
 const testNotificationOnClick = () => {
     let id = "notify" + new Date().getTime();
-    chrome.notifications.create(id, opt, function(id) { console.log("Last error:", chrome.runtime.lastError); });
+    chrome.notifications.create(id, opt, function(id) { //console.log("Last error:", chrome.runtime.lastError); 
+  });
 }
 
 
@@ -47,7 +48,7 @@ export default (state = initialState, action) => {
         updateReactApp: updateRequest
       });
     case 'UPDATE_REACT_APP_ERROR':
-      console.log("ERROR REDUCER IS CALLED!!!!");
+      //console.log("ERROR REDUCER IS CALLED!!!!");
       let errorResponse = JSON.stringify({ 
         type:'ERROR',
         payload: action.payload
