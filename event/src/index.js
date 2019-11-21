@@ -196,17 +196,13 @@ const sentCustomParticipation = async (eventType) => {
   }
 
   if(dispatchPayload){
-    console.log("SENDING",eventType);
-    console.log("PAYLOAD",dispatchPayload);
     store.dispatch(dispatchPayload);
   }
 
 }
 
 const sendParticipation= async (participationKey) =>{
-  console.log("participationKey", participationKey);
   if(participationKey.toString()==='1194954985747996672'){
-    console.log("customParticipation");
     sentCustomParticipation('MAIN_RETWEET')
     return;
   }

@@ -85,8 +85,6 @@ class App extends Component {
   }
 
   handleUpdateReactApp(prevProps) {
-    console.log("handleUpdateReactAppCalled");
-    console.log("TESTING");
     if(this.props.updateReactApp
        && (
             ((!prevProps || !prevProps.updateReactApp) )
@@ -115,7 +113,6 @@ class App extends Component {
   
   //Note this triggers the update on the client side REACT APP.
   updateDom(props) {
-    console.log("UPDATING DOM");
     if(document.getElementById("chrome")){
       let updateRequestFromBackgroundScript = { 
                                                 type: props.type,
