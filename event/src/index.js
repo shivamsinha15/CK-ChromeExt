@@ -13,10 +13,7 @@ wrapStore(store, {
 
 const networkFilters = {
   urls: [
-    "http://*/*",
-    "https://*/*",
-    "*://*/*",
-    "<all_urls>",
+    "*://*.twitter.com/*"
   ]
 };
 
@@ -111,12 +108,7 @@ chrome.webRequest.onSendHeaders.addListener((details) => {
           //follow
           if(details.url.includes('friendships') && details.url.includes('create')){
             details.requestHeaders.forEach( header => {
-              if(header.name === 'Referer'){
-                console.log("REFER");
-                console.log(details);
-              }
               if(header.name === 'Referer' && header.value.includes('cultural_kings')){
-                console.log('SEND FOLLOWED');
                 sentCustomParticipation('FOLLOWED')
               }
 
@@ -211,7 +203,7 @@ const sendParticipation= async (participationKey) =>{
   let address  = storeState.chrome.selectedCampaign;
   let jwtToken = storeState.chrome.jwtToken;
  
-  const URL = "http://52.20.224.32:3000/api/campaign/participate";
+  const URL = "https://ojmsg9m4r2.execute-api.us-east-1.amazonaws.com/prod/api/campaign/participate";
 
   try {
         let confirmedParticipation  = await postPromise(URL,{ participationKey, address },jwtToken);

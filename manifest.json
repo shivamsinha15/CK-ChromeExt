@@ -10,26 +10,27 @@
     "persistent": true
   },
   "browser_action": {
-    "default_title": "CK Extension",
-    "default_popup": "popup.html"
+    "default_title": "CK Extension"
   },
   "permissions": [
     "webRequest",
     "webRequestBlocking",
-    "<all_urls>",
     "tabs",
     "activeTab",
-    "http://*/*",
-    "https://*/*",
-    "storage",
-    "alarms",
-    "notifications"
+    "*://*.twitter.com/*"
   ],
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
+      "matches": [
+        "http://localhost:3000/",
+        "http://localhost:3000/home",
+        "*://*.culturalkings.com/*"
+      ],
       "css": [],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "icons": { "16": "./icon16x16.png",
+    "48": "./icon48x48.png",
+   "128": "./icon128x128.png" }
 }

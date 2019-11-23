@@ -49,8 +49,6 @@ class App extends Component {
   /*The objective of this method is to update the dom to prop*/
   componentDidUpdate(prevProps) {    
     //console.log("componentDidUpdate:START--------------------------------");
-    console.log("prevProps",prevProps);
-    console.log("this.props.updateReactApp",this.props.updateReactApp)
     this.handleUpdateReactApp(prevProps);
     this.updateReactAppWithError(prevProps);
     //console.log("componentDidUpdate:end--------------------------------");
